@@ -1,0 +1,57 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.0.M1'
+	}
+	repositories {
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot' 
+
+jar {
+	baseName = 'slack'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-actuator-docs')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile("org.jsoup:jsoup:1.8.3")
+	compile("org.json:json:20140107")
+	compile("com.sleepycat:je:5.0.73")
+	compile("org.mongodb:mongo-java-driver:3.2.2")
+	compile("com.googlecode.juniversalchardet:juniversalchardet:1.0.3")
+	// lightweight HTTP request library, http://unirest.io/java.html
+	compile("com.mashape.unirest:unirest-java:1.4.7")
+}
+
+
+eclipse {
+	classpath {
+		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7'
+	}
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.9'
+}
