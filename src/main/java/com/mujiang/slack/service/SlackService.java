@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
+import java.util.Date;
 
 /**
  * Created by TONY on 2/27/16.
@@ -23,15 +24,16 @@ public class SlackService {
         //return str;
          // str="{\"status\":\"publish\",\"author\":\"mujiang\",\"title\":\"titittttd test\",\"content\":\"content test\"}";
         JSONObject js = new JSONObject();
-        js.accumulate("status","publish").accumulate("author", "mujiang")
+        js.accumulate("origin_url",articleUrl).accumulate("author", "mujiang").accumulate("created_time", new Date())
                 .accumulate("title", article.getTitle())
                 .accumulate("content", article.getContentHtml());
+
 //       HttpResponse<JsonNode> jsonResponse = Unirest.post("http://requestb.in/17gdhpu1")
         //return js.toString();
-        HttpResponse<JsonNode> jsonResponse = Unirest.post("http://blog.chuhan.me/wp-json/wp/v2/posts")
+        //HttpResponse<JsonNode> jsonResponse = Unirest.post("http://blog.chuhan.me/wp-json/wp/v2/posts")
 
-                .header("Authorization", "Basic bXVqaWFuZzpoYWZ1ZGF4dWU=")
-               // .basicAuth("mujiang", "hafudaxue")
+             //   .header("Authorization", "Basic bXVqaWFuZzpoYWZ1ZGF4dWU=")
+        HttpResponse<JsonNode> jsonResponse = Unirest.post("http://reader.chuhan.me/article/post")
                 .header("Content-Type", "application/json")
                 .body(js.toString())
                 .asJson();
@@ -39,7 +41,7 @@ public class SlackService {
         String responseStr = jsonResponse.getBody().toString();
 
 
-        return js.toString();
+        return responseStr;
     }
 
 }
